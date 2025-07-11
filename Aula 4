@@ -117,3 +117,65 @@ select nome,salario
 from cliente 
 where salario  between 5000 and 10000
 order by 2;
+
+-- AULA 4 JUNÇÃO DE TABELA 
+-- SQL Join 
+
+-- Inner Join vai trazer o resultado que for igual as duas tabelas 
+-- Self Join faz junçãoi da propria tablea 
+-- Cross Join faz cruzam,ento de duas tabelas 
+-- Outer Join possui 3 variantes 
+-- Left Join pega somente a tabela da esquerda 
+-- Right join pega a tabela da direita 
+-- Full join pega toda a tabela 
+
+use aula4;
+select * from cidade; 
+select * from cliente;
+
+-- Inner Join 
+select nome 
+from cliente 
+inner join cidade 
+on ClienteCidade = cidade.id;
+
+-- Cross join 
+select nomecidade, gerente.nomeEstado
+from cidade, estado
+order by nomeCidade;
+
+-- Self Join 
+select funcionario.nomeFunc, nomeFun
+from funcionario 
+inner join funcionario gerente -- se quiser todos os funhionario por left join 
+on funcionario.gerente = gerent.id; 
+
+-- Full join 
+
+
+
+-- Comandos e boas praticas 
+/* Outros Comando e boas praticas 
+	comandos Alias, limit, distinct, case, union e union all
+Boas praticas 
+	Não use * (asterisco) no comando select
+    Use filtros (where) no delete e no update
+    Evite criar insert com varias linhas 
+    */
+    
+-- Exemplo do alias 
+select nomefunc as 'Nome do funcionario' from funcionario -- muda o nomeFucn para o apelidado Nome do funcionario, apenas para efeitos de visualização 
+where f.cidadeid= 1; -- traz somente da cidade com o apelido 
+
+select * from cidade limit 3; -- limita apenas 3 linhas 
+
+select nomeFucn from funcionario 
+union -- ou union all 
+select nomeCidade from cidade; -- traz um resultado so em uma lista 
+
+select nomeFunc 'Nome do funcionario',
+case 
+	when sexoFunc = 'F' then 'Feminino' 
+    when sexoFunc = 'M' then 'Masculino' 
+end as ' Genero'
+from funcionario; -- usando um sistema booleano para como case 
