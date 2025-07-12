@@ -1,0 +1,38 @@
+-- Subqueries 
+/* Subqueries opu subconsultas são lindas de comando select que estão incluidas (aninhadas) ddentro da estrutura de outros 
+comandos ( select, insert, update ou delete)
+*/
+-- Exemplos 
+-- Subconsulta simples 
+select * from cliente 
+where cidadeid =(select id from cidade where nomeCidade = 'Bagé');
+
+-- Subconsulta com mais de um resultado 
+select * from cliente
+ where cidadeid in (select id from cidade
+	where nomeCidade = 'Bagé' or nomeCidade = 'Curitiba');
+  
+-- Consulta com o operdor not e exists
+select nome, salario 
+from cliente 
+where salario < 7000
+and not exists ( select * from cliente where salario > 11000);
+
+-- any = qualquer valor e all = a todos os valores
+
+select * from cliente 
+where id > any (select distinct clienteid from vendas);
+
+select * from cliente 
+where id > all (select distinct clienteid from vendas);
+
+-- Intersecção faz o mems papal do inner join 
+select cidadeid from cliente 
+intersect 
+select id from cidade 
+
+select cidadeid from cliente 
+inner join cidade 
+on cidade.id = cliente.cidadeid;
+
+-- Formatação de dados textuais 
