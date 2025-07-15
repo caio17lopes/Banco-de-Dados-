@@ -36,3 +36,97 @@ inner join cidade
 on cidade.id = cliente.cidadeid;
 
 -- Formatação de dados textuais 
+-- função para tratamento e manipulação de dados armazenados no banco de dados 
+    -- Envolve operaçãoes de conversão, teste localização,substituição, concatenação e remoção 
+    -- length(), upper(), lower(),ltrim(), rtrim(), trim(), substring(), replace(), cast() 
+    
+-- length() retorna o tamanho do campo 
+
+select nome, length(nome), length(dataNAscimento) from cliente; 
+
+-- upper deixa tudo maiusculo e lower tudo minusculo
+select upper(nome), lower(nome) from cliente;
+
+-- ltrim remove espaços a esquerda e rtrim remove a direita
+select ltrim(nome), rtrim(nome) from cliente;
+select trim(both from nome), nome from cliente; -- retira todos os espeços 
+
+-- substring() extrai uma quantidade de carctres de uma string
+select substring(nome,1,5), nome from cliente; -- 1 é o inicio e 5 é a quiantidade
+
+-- replace susbtitui pelo o que eu definir 
+select email, repalce(email,'#','@') from cliente;
+
+-- cast faz conversão
+
+select cast ('2029-12-31' as date), cast('1000.99 as float' as float); 
+
+-- Fromatação de dados nummericos e temporais 
+/*
+
+numerico 					/				data						/			hora		/
+round()							curdate(), curtime(), now()					timediff() time()
+truncate()						date(), month(), monthname()				addtime()	
+mod()							year(), day(), week(), weekday()			timestamp()
+div()							adddate(), datediff() 						timestampadd()
+								date_format()								time_format()
+
+-- round() arrendo caso seja acima de 5 ou diminui caso seja abaixo de 5
+-- truncte() simplesmente elimina as casas decimais fornecidadas 
+*/
+select salario, round(slario,2), truncate(salario,2)
+from funcionario;
+
+-- Funções mod e div 
+
+select mod(10,2), 10 div 2; -- saberr se um numero é par ou impar 
+
+-- curdate() tras a data atual do computador 
+select curdate();
+
+-- data sempre com o ano primeiro seguido de mes e dia  essas dats servem para usar como filtro caso queira sabe se todos os cliente nasceram em 200 por exmeplo
+select day('2030-12-31'),
+month('2030-12-31'),
+year('2030-12-31');
+
+select dayname('2030-12-31'); -- retorna o dia que vai dar nessa data
+select monthname('2030-12-31'); -- retorna o mes
+
+-- curtime informa a hora atual
+ select curtime();
+ 
+ select hour('12:00:00'); -- separa a hora 
+ select minute('12:00:00'); -- separa o minuto
+ 
+ select adddate('2030-12-31', interval 30 day); -- calcula que data vai cair adicionando o vlaor depois de interval
+ select adddate('2030-12-31', interval 1 month); -- clacula 1 mes a frente
+ select datediff('2035-12-31','2032-12-31'); -- da a diferença em dias das dadas
+ 
+ 
+ -- Agreegação/Extgração de dados
+ -- count(), sum(), min(), max(), avg() 'Media de valores', group by(), having()
+ 
+ select count(*), count(genero)l from funcionario; -- count(genero) ignora as linhas que estão null
+ select sum (salrio) from funcionario 
+ where departamento = 1;
+ 
+ select min(salario), max(salario) from funcionario;
+ 
+ select avg(salario) from funcionario; -- faz a media do salario;
+ select departamento, sum (salario) from funcionario
+ group by departamento; -- vai somar os salarios por departamento 
+ 
+select departamento,cargo, nome, sum (salario) from funcionario
+group by departamento, cargo,nome; 
+
+  select departamento, sum (salario) from funcionario
+ group by departamento
+ having sum (salario) > 20000; -- hgaving sempre em cima do group by ele vai mostrar somente o que estao a cima de 200000
+ 
+-- metodo certo de fazer consulta 
+select nome, salario from funcionario 
+where salario = (select min(salario)from funcionario);
+ 
+ -- como saber quem é o funcioonario mais novo da empresa 
+ 
+ select min(nascimento) from funcionario ;
