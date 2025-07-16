@@ -130,3 +130,38 @@ where salario = (select min(salario)from funcionario);
  -- como saber quem é o funcioonario mais novo da empresa 
  
  select min(nascimento) from funcionario ;
+
+
+-- Integridade e segurança 
+/* Segurança de dados
+	Proteção de dados ( logico e fisica) atraves de mecanismos de controle para previnir o acesso não autorizado 
+    Comando de controle de dados
+    Grant 
+    Revoke 
+    
+    Integridade de dados 
+		Assegurar a qualidade e a validade dos dados armazenados de forma logica, utilizando regras e protocolos para garantir a consstencia e a 
+        credibilidade dos dados 
+        
+	Implementação:
+		Integridade procedural (PK,FK e dominio)
+        Integridade declarativa ( trigger, funcções e stroe procedure)
+    */
+    
+    create table funcionario(
+    matricula int primary key auto_increment,
+    nome varchar (100),
+    nascimento date,
+    salario decimal(10,2),
+    departamento varchar (3),
+    cargo varchar (3),
+    email varchar(100),
+    cidade varchar(1));
+    
+    
+create user 'aluno@localhost' identified by '123';
+flush privileges; -- atualiza os previlegios 
+
+show grants for 'aluno@localhost'; 
+-- dar alguns privilegios para esse usuario
+grant select,insert on aula.* to 'aluno@localhost';
